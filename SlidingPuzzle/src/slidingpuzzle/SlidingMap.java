@@ -10,7 +10,7 @@ public class SlidingMap {
 	private ArrayList<SlidingBlock> blocks = new ArrayList<SlidingBlock>();
 	private BufferedReader reader = null;
 	
-	private SlidingBlock generateSlidingBlock(String text)
+	private SlidingBlock generateSlidingBlock(String text, int num)
 	{
 		int row, column, width, height;
 		boolean moveHorizontal, moveVertical;
@@ -54,7 +54,7 @@ public class SlidingMap {
 			System.out.print("Error setting movement directions!");
 		}
 		
-		return new SlidingBlock(row, column, width, height, moveHorizontal, moveVertical);
+		return new SlidingBlock(row, column, width, height, moveHorizontal, moveVertical, num);
 	}
 	
 	public SlidingMap(String fileName)
@@ -72,15 +72,17 @@ public class SlidingMap {
 			
 			//creates goal block
 			text = reader.readLine();
-			SlidingBlock goalBlock = generateSlidingBlock(text);
+			SlidingBlock goalBlock = generateSlidingBlock(text, 0);
 			this.goalBlock = goalBlock;
 			blocks.add(goalBlock);
 			
+			int block_num = 1;
 			//turns remaining lines into blocks
 			while ((text = reader.readLine()) != null)
 			{
-				SlidingBlock moveableBlock = generateSlidingBlock(text);
+				SlidingBlock moveableBlock = generateSlidingBlock(text, block_num);
 				blocks.add(moveableBlock);
+				block_num += 1;
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -96,5 +98,29 @@ public class SlidingMap {
 				e.printStackTrace();
 			}
 		}		
+	}
+	
+	public int[][] toArray() {
+		int[][] myArray = new int[this.rows][this.columns];
+		
+		//set all elements of the array to be equal to a "unoccupied" -1
+		for (int x = 0; x<this.rows; x++)
+		{
+			for (int y = 0; y<this.columns; y++)
+			{
+				myArray[x][y] = -1;
+			}
+		}
+		
+		for (int x = 0; x<blocks.size(); x++) {  //iterate through all blocks
+			SlidingBlock myBlock = blocks.get(x);
+			int[][] blockPos = myBlock.getAllPos(); //get a list of x,y coordinates of the block
+			for (int y = 0; y < blockPos.length; y++)//iterate through list and update each position with block number
+			{
+				myArray[blockPos[y][0]-1][blockPos[y][1]-1] = myBlock.getNum(); //positions are stored starting at 1, subtract one to get array position
+			}
+		}
+		
+		return myArray;
 	}
 }
