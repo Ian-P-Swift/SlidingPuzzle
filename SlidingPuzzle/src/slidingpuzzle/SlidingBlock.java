@@ -1,4 +1,4 @@
-package slidingpuzzle;
+package slidingpuzzle;	
 
 
 public class SlidingBlock {
@@ -41,5 +41,87 @@ public class SlidingBlock {
 	public int getNum()
 	{
 		return this.num;
+	}
+	
+	public int numPossibleMovesRight(int[][] grid)
+	{
+		//returns the number the block can move to the right
+		int numPossibleMoves = -1; //will be incremented to 0 in first iteration of loop
+		int[][] myPos = this.getAllPos(); //gets position of this box
+		boolean possible = true; //remains true as long as you can move in that direction
+		while(possible) {
+			numPossibleMoves++; //keeps track of how far it can move
+			for (int i = 0; i < myPos.length; i++) { //iterates through all positions of box
+				if (myPos[i][1] + numPossibleMoves>= grid[0].length || //checks position to make sure it's in the bounds of the grid
+						(grid[myPos[i][0] - 1][myPos[i][1]+numPossibleMoves] != -1 && //checks if it is not empty (can move to empty squares)
+						grid[myPos[i][0] - 1][myPos[i][1]+numPossibleMoves] != this.num)) //checks if not self (self is moving anyway)
+				{
+					possible = false; //if not in grid, not empty, and not self, it can move no further!
+					break;
+				}
+			}
+		}
+		return numPossibleMoves;
+	}
+	public int numPossibleMovesLeft(int[][] grid)
+	{
+		//returns the number the block can move to the left
+		int numPossibleMoves = -1; //will be incremented to 0 in first iteration of loop
+		int[][] myPos = this.getAllPos(); //gets position of this box
+		boolean possible = true; //remains true as long as you can move in that direction
+		while(possible) {
+			numPossibleMoves++; //keeps track of how far it can move
+			for (int i = 0; i < myPos.length; i++) { //iterates through all positions of box
+				if (myPos[i][1] - numPossibleMoves - 2 < 0 || //checks position to make sure it's in the bounds of the grid
+						(grid[myPos[i][0] - 1][myPos[i][1]-numPossibleMoves-2] != -1 && //checks if it is not empty (can move to empty squares)
+						grid[myPos[i][0] - 1][myPos[i][1]-numPossibleMoves-2] != this.num)) //checks if not self (self is moving anyway)
+				{
+					possible = false; //if not in grid, not empty, and not self, it can move no further!
+					break;
+				}
+			}
+		}
+		return numPossibleMoves;
+	}
+	public int numPossibleMovesUp(int[][] grid)
+	{
+		//returns the number the block can move upwards
+		int numPossibleMoves = -1; //will be incremented to 0 in first iteration of loop
+		int[][] myPos = this.getAllPos(); //gets position of this box
+		boolean possible = true; //remains true as long as you can move in that direction
+		while(possible) {
+			numPossibleMoves++; //keeps track of how far it can move
+			for (int i = 0; i < myPos.length; i++) { //iterates through all positions of box
+				if (myPos[i][0] - numPossibleMoves - 2 < 0 || //checks position to make sure it's in the bounds of the grid
+						(grid[myPos[i][0]-numPossibleMoves-2][myPos[i][1]-1] != -1 && //checks if it is not empty (can move to empty squares)
+						grid[myPos[i][0]-numPossibleMoves-2][myPos[i][1]-1] != this.num)) //checks if not self (self is moving anyway)
+				{
+					possible = false; //if not in grid, not empty, and not self, it can move no further!
+					break;
+				}
+			}
+		}
+		return numPossibleMoves;
+	}
+	public int numPossibleMovesDown(int[][] grid)
+	{
+		//returns the number the block can move downwards
+		int numPossibleMoves = -1; //will be incremented to 0 in first iteration of loop
+		int[][] myPos = this.getAllPos(); //gets position of this box
+		boolean possible = true; //remains true as long as you can move in that direction
+		while(possible) {
+			numPossibleMoves++; //keeps track of how far it can move
+			for (int i = 0; i < myPos.length; i++) { //iterates through all positions of box
+				//System.out.print((myPos[i][0] + numPossibleMoves + 1) + ", " + grid.length + "\n");
+				if (myPos[i][0] + numPossibleMoves >= grid.length || //checks position to make sure it's in the bounds of the grid
+						(grid[myPos[i][0]+numPossibleMoves][myPos[i][1]-1] != -1 && //checks if it is not empty (can move to empty squares)
+						grid[myPos[i][0]+numPossibleMoves][myPos[i][1]-1] != this.num)) //checks if not self (self is moving anyway)
+				{
+					possible = false; //if not in grid, not empty, and not self, it can move no further!
+					break;
+				}
+			}
+		}
+		return numPossibleMoves;
 	}
 }

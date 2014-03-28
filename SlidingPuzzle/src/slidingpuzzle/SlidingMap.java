@@ -123,4 +123,17 @@ public class SlidingMap {
 		
 		return myArray;
 	}
+	
+	public void numMoves(int[][] grid)
+	{
+		for (int i = 0; i < blocks.size(); i++)
+		{
+			SlidingBlock myBlock = blocks.get(i);
+			System.out.print(myBlock.getNum() + ":\n  R:" 
+			+ myBlock.numPossibleMovesRight(grid) + "\n  L:"
+			+ myBlock.numPossibleMovesLeft(grid) + "\n  U:"
+			+ myBlock.numPossibleMovesUp(grid) + "\n  D:" +
+			+ myBlock.numPossibleMovesDown(grid) + "\n");
+		}
+	}
 }

@@ -41,16 +41,18 @@ public class SlidingPuzzle extends JFrame {
 		SlidingMap map1 = new SlidingMap("src/map.txt");
 		int[][] myArray = map1.toArray();
 		
-		/*
-		 * print the contents of to array
-		 * for (int x = 0; x < myArray.length; x++)
+		
+		//print the contents of to array
+		for (int x = 0; x < myArray.length; x++)
 		{
 			for (int y = 0; y < myArray[x].length; y++)
 			{
 				System.out.print(myArray[x][y] + " ");
 			}
 			System.out.print("\n");
-		}*/
+		}
+		
+		map1.numMoves(myArray);
 	}
 
 }
