@@ -21,6 +21,15 @@ public class SlidingBlock {
 		this.num = num;
 	}
 	
+	public SlidingBlock(SlidingBlock original) {
+		this.x = original.x;
+		this.y = original.y;
+		this.width = original.width;
+		this.moveHorizontal = original.moveHorizontal;
+		this.moveVertical = original.moveVertical;
+		this.num = original.num;
+	}
+	
 	//creates an array of all positions (first index being the set number of x,y coordinates,
 	//second index being the actual x,y coordinates in positions 0 and 1 respectively)
 	public int[][] getAllPos()
@@ -41,6 +50,15 @@ public class SlidingBlock {
 	public int getNum()
 	{
 		return this.num;
+	}
+	
+	public void moveX(int distance)
+	{
+		this.x = this.x + distance;
+	}
+	public void moveY(int distance)
+	{
+		this.y = this.y + distance;
 	}
 	
 	public int numPossibleMovesRight(int[][] grid)
@@ -123,5 +141,14 @@ public class SlidingBlock {
 			}
 		}
 		return numPossibleMoves;
+	}
+	
+	public boolean isOut(int puzzle_width)
+	{
+		if (this.x + this.width - 1 == puzzle_width)
+		{
+			return true;
+		}
+		return false;
 	}
 }

@@ -57,6 +57,18 @@ public class SlidingMap {
 		return new SlidingBlock(row, column, width, height, moveHorizontal, moveVertical, num);
 	}
 	
+	public SlidingMap(SlidingMap original)
+	{
+		this.rows = original.rows;
+		this.columns = original.columns;
+		this.goalBlock = new SlidingBlock(original.goalBlock);
+		this.blocks.add(goalBlock);
+		for (int i = 1; i < original.blocks.size(); i++)
+		{
+			this.blocks.add(new SlidingBlock(original.blocks.get(i)));
+		}
+	}
+	
 	public SlidingMap(String fileName)
 	{
 		File file = new File(fileName);
@@ -135,5 +147,96 @@ public class SlidingMap {
 			+ myBlock.numPossibleMovesUp(grid) + "\n  D:" +
 			+ myBlock.numPossibleMovesDown(grid) + "\n");
 		}
+	}
+	
+	public List<SlidingMap> FindSolution()
+	{
+		List<SlidingMap> solution = new ArrayList<SlidingMap>();
+		solution.add(this);
+		List<int[][]> closedList = new ArrayList<int[][]>();
+		closedList.add(this.toArray());
+		
+		return FindSolutionHelper(solution, myQueue, closedList)
+	}
+	
+	public List<SlidingMap> FindSolutionHelper(List<SlidingMap> solution, List<int[][]> closedList)
+	{
+		Queue<SlidingMap> myQueue = new LinkedList<SlidingMap>();
+		if (this.blocks.get(0).isOut(this.columns))
+		{
+			return solution;
+		}
+		for (int i = 0; i<this.blocks.size(); i++)
+		{
+			int rightMoves = this.blocks.get(i).numPossibleMovesRight(this.toArray());
+			int leftMoves = this.blocks.get(i).numPossibleMovesLeft(this.toArray());
+			int upMoves = this.blocks.get(i).numPossibleMovesUp(this.toArray());
+			int downMoves = this.blocks.get(i).numPossibleMovesDown(this.toArray());
+		
+			for (int j = 0; j<rightMoves; j++)
+			{
+				SlidingMap new_map = new SlidingMap(this);
+				new_map.blocks.get(i).moveX(j);
+				if (notInClosedList(new_map.toArray(), closedList))
+				{
+					myQueue.add(new_map);
+					closedList.add(new_map.toArray());
+				}
+			}
+			for (int j = 0; j<leftMoves; j++)
+			{
+				SlidingMap new_map = new SlidingMap(this);
+				new_map.blocks.get(i).moveX(-j);
+				if (notInClosedList(new_map.toArray(), closedList))
+				{
+					myQueue.add(new_map);
+					closedList.add(new_map.toArray());
+				}
+			}
+			for (int j = 0; j<upMoves; j++)
+			{
+				SlidingMap new_map = new SlidingMap(this);
+				new_map.blocks.get(i).moveY(-j);
+				if (notInClosedList(new_map.toArray(), closedList))
+				{
+					myQueue.add(new_map);
+					closedList.add(new_map.toArray());
+				}
+			}
+			for (int j = 0; j<downMoves; j++)
+			{
+				SlidingMap new_map = new SlidingMap(this);
+				new_map.blocks.get(i).moveY(j);
+				if (notInClosedList(new_map.toArray(), closedList))
+				{
+					myQueue.add(new_map);
+					closedList.add(new_map.toArray());
+				}
+			}
+		}
+		while(!myQueue.isEmpty())
+		{
+			List<SlidingMap> new_solution = new ArrayList<SlidingMap>(solution);
+			new_solution.add(this);
+			SlidingMap new_map = myQueue.remove();
+			List<SlidingMap> mySolution = new_map.FindSolutionHelper(new_solution, closedList);
+			if (!mySolution.isEmpty())
+			{
+				return mySolution;
+			}
+		}
+		return new ArrayList<SlidingMap>();
+	}
+	
+	public static boolean notInClosedList(int[][] myPos, List<int[][]> myList)
+	{
+		for (int i = 0; i < myList.size(); i++)
+		{
+			if (myPos == myList.get(i))
+			{
+				return false;
+			}
+		}
+		return true;s
 	}
 }
