@@ -38,7 +38,7 @@ public class SlidingPuzzle extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		SlidingMap map1 = new SlidingMap("map.txt");
+		SlidingMap map1 = new SlidingMap("src/map.txt");
 	}
 
 }
