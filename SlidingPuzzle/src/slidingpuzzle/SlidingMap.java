@@ -156,7 +156,7 @@ public class SlidingMap {
 		List<int[][]> closedList = new ArrayList<int[][]>();
 		closedList.add(this.toArray());
 		
-		return FindSolutionHelper(solution, myQueue, closedList)
+		return FindSolutionHelper(solution, closedList);
 	}
 	
 	public List<SlidingMap> FindSolutionHelper(List<SlidingMap> solution, List<int[][]> closedList)
@@ -237,6 +237,6 @@ public class SlidingMap {
 				return false;
 			}
 		}
-		return true;s
+		return true;
 	}
 }
