@@ -24,6 +24,7 @@ public class SlidingBlock {
 	public SlidingBlock(SlidingBlock original) {
 		this.x = original.x;
 		this.y = original.y;
+		this.height = original.height;
 		this.width = original.width;
 		this.moveHorizontal = original.moveHorizontal;
 		this.moveVertical = original.moveVertical;
@@ -145,7 +146,7 @@ public class SlidingBlock {
 	
 	public boolean isOut(int puzzle_width)
 	{
-		if (this.x + this.width - 1 == puzzle_width)
+		if (this.y + this.width - 1 == puzzle_width)
 		{
 			return true;
 		}

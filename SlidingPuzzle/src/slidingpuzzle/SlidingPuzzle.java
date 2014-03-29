@@ -3,6 +3,7 @@ package slidingpuzzle;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.util.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -52,7 +53,23 @@ public class SlidingPuzzle extends JFrame {
 			System.out.print("\n");
 		}
 		
-		map1.numMoves(myArray);
+		List<SlidingMap> solution = map1.FindSolution();
+		System.out.print("Hello world!");
+		
+		for (int i = 0; i < solution.size(); i++)
+		{
+			System.out.print("Step " + i + ":\n");
+			int[][] myStep = solution.get(i).toArray();
+			for (int x = 0; x < myStep.length; x++)
+			{
+				for (int y = 0; y < myStep[x].length; y++)
+				{
+					System.out.print(myStep[x][y] + " ");
+				}
+				System.out.print("\n");
+			}
+			
+		}
 	}
 
 }
