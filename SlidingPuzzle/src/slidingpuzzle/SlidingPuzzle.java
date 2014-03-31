@@ -1,3 +1,6 @@
+//This contains the main class
+//It creates a GUI for the user and deals with all the mouse events
+
 package slidingpuzzle;
 
 
@@ -21,9 +24,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+@SuppressWarnings("serial")
 public class SlidingPuzzle extends JFrame implements ActionListener, MouseListener {
 
 	private JPanel contentPane;
@@ -33,7 +38,9 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 	private JMenuItem Solve;
 	private JMenuItem About;
 	private JButton buttons[];
+	@SuppressWarnings("unused")
 	private GridBagConstraints bounds;
+	@SuppressWarnings("unused")
 	private javax.swing.Timer timer2;
 	private int nSeconds = 0;
 	private int left = 0;
@@ -92,6 +99,14 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		lblFlagsLeft.setBounds(20, 11, 91, 28);
 		contentPane.add(lblFlagsLeft);
 		
+		//Creates a Progress bar
+		JProgressBar progressBar = new JProgressBar(0, 100);
+		progressBar.setString("** SlidingPuzzle **");
+		progressBar.setStringPainted(true);
+		progressBar.setIndeterminate(true);
+		progressBar.setBounds(144, 11, 189, 29);
+		contentPane.add(progressBar);
+		
 		SlidingMap map1 = new SlidingMap("src/map.txt");
 		int[][] myArray = map1.toArray();
 		this.setTitle("Sliding Block Puzzle");
@@ -100,11 +115,10 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		JMenuBar menuBar = new JMenuBar();
 		JMenu file;
 		
-		
 		// Setting the menu Bar
-				menuBar.setBounds(0, 0, 97, 21);  
-				//contentPane.add(menuBar);  
-				setJMenuBar(menuBar);
+		menuBar.setBounds(0, 0, 97, 21);  
+		//contentPane.add(menuBar);  
+		setJMenuBar(menuBar);
 		
 		file = new JMenu("Game");
 		menuBar.add(file);
@@ -173,9 +187,6 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		int mbutton = e.getButton();
-		Object source = e.getSource();
-		
-		//if(source == buttons[i]){
 			if(mbutton == 1){
 				left++;
 				if(left==1){

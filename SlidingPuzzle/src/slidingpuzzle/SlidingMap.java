@@ -138,6 +138,7 @@ public class SlidingMap {
 		return myArray;
 	}
 	
+	//gets a list of possible number of moves
 	public void numMoves(int[][] grid)
 	{
 		for (int i = 0; i < blocks.size(); i++)
@@ -237,6 +238,7 @@ public class SlidingMap {
 		return null;
 	}
 
+	//Helper function for breadth first search, checks to see if any of the elements are the same
 	public static boolean InClosedList(int[][] myPos, List<int[][]> myList)
 	{
 		for (int i = 0; i < myList.size(); i++)

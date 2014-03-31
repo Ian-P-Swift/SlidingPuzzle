@@ -62,9 +62,9 @@ public class SlidingBlock {
 		this.y = this.y + distance;
 	}
 	
+	//returns the number the block can move to the right
 	public int numPossibleMovesRight(int[][] grid)
 	{
-		//returns the number the block can move to the right
 		int numPossibleMoves = -1; //will be incremented to 0 in first iteration of loop
 		int[][] myPos = this.getAllPos(); //gets position of this box
 		boolean possible = true; //remains true as long as you can move in that direction
@@ -82,9 +82,10 @@ public class SlidingBlock {
 		}
 		return numPossibleMoves;
 	}
+	
+	//returns the number the block can move to the left
 	public int numPossibleMovesLeft(int[][] grid)
 	{
-		//returns the number the block can move to the left
 		int numPossibleMoves = -1; //will be incremented to 0 in first iteration of loop
 		int[][] myPos = this.getAllPos(); //gets position of this box
 		boolean possible = true; //remains true as long as you can move in that direction
@@ -102,9 +103,10 @@ public class SlidingBlock {
 		}
 		return numPossibleMoves;
 	}
+	
+	//returns the number the block can move upwards
 	public int numPossibleMovesUp(int[][] grid)
 	{
-		//returns the number the block can move upwards
 		int numPossibleMoves = -1; //will be incremented to 0 in first iteration of loop
 		int[][] myPos = this.getAllPos(); //gets position of this box
 		boolean possible = true; //remains true as long as you can move in that direction
@@ -122,9 +124,10 @@ public class SlidingBlock {
 		}
 		return numPossibleMoves;
 	}
+	
+	//returns the number the block can move downwards
 	public int numPossibleMovesDown(int[][] grid)
 	{
-		//returns the number the block can move downwards
 		int numPossibleMoves = -1; //will be incremented to 0 in first iteration of loop
 		int[][] myPos = this.getAllPos(); //gets position of this box
 		boolean possible = true; //remains true as long as you can move in that direction
