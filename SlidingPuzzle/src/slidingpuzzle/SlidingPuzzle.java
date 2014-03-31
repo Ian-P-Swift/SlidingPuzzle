@@ -36,6 +36,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 	private GridBagConstraints bounds;
 	private javax.swing.Timer timer2;
 	private int nSeconds = 0;
+	private int left = 0;
 	
 	private Timer timer = new Timer();
 	private JLabel timeLabel = new JLabel(" ", JLabel.CENTER);
@@ -169,9 +170,18 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent arg0) {
+	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		timer.schedule(new UpdateUITask(), 0, 1000); 
+		int mbutton = e.getButton();
+		Object source = e.getSource();
+		
+		//if(source == buttons[i]){
+			if(mbutton == 1){
+				left++;
+				if(left==1){
+					timer.schedule(new UpdateUITask(), 0, 1000); 
+				}
+			}
 	}
 
 	@Override
@@ -221,7 +231,6 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 
                 @Override
                 public void run() {
-                	
                     timeLabel.setText(String.valueOf(nSeconds+=1));}
                 
             });
