@@ -158,6 +158,10 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 				buttons[x] = new JButton();
 				bounds.gridx = getX();
 				buttons[x].setBounds(10+(x*50), 54+(y*50), 50, 50);
+				if (myArray[y][x] >= 0)
+				{
+					buttons[x].setText(myArray[y][x] + "");
+				}
 				buttons[x].addMouseListener(this);
 				contentPane.add(buttons[x]);
 				System.out.print(myArray[x][y] + " ");
