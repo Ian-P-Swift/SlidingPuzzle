@@ -3,6 +3,7 @@ package slidingpuzzle;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -27,6 +28,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 	private JMenuItem Solve;
 	private JMenuItem About;
 	private JButton buttons[];
+	private GridBagConstraints bounds;
 
 	/**
 	 * Launch the application.
@@ -52,11 +54,14 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		setBounds(100, 100, 500, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
+		//contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
 		SlidingMap map1 = new SlidingMap("src/map.txt");
 		int[][] myArray = map1.toArray();
 		this.setTitle("Sliding Block Puzzle");
+		bounds = new GridBagConstraints();
 		
 		JMenuBar menuBar = new JMenuBar();
 		JMenu file;
@@ -102,7 +107,9 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 			for (int y = 0; y < myArray[x].length; y++)
 			{
 				buttons[x] = new JButton();
+				//bounds.gridx = ;
 				buttons[x].setBounds(10+(x*50), 54+(y*50), 50, 50);
+				buttons[x].addActionListener(this);
 				contentPane.add(buttons[x]);
 				System.out.print(myArray[x][y] + " ");
 			}
