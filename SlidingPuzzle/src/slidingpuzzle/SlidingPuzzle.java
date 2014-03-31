@@ -141,6 +141,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		option.add(About);
 		file.setBounds(105, 0, 107, 22);
 		
+		//Action Listener for all the menu bar items
 		exit.addActionListener(this);
 		Instructions.addActionListener(this);
 		About.addActionListener(this);
@@ -155,7 +156,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 			for (int y = 0; y < myArray[x].length; y++)
 			{
 				buttons[x] = new JButton();
-				//bounds.gridx = ;
+				bounds.gridx = getX();
 				buttons[x].setBounds(10+(x*50), 54+(y*50), 50, 50);
 				buttons[x].addMouseListener(this);
 				contentPane.add(buttons[x]);
@@ -189,7 +190,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		int mbutton = e.getButton();
 			if(mbutton == 1){
 				left++;
-				if(left==1){
+				if(left==1){  //left button click
 					timer.schedule(new UpdateUITask(), 0, 1000); 
 				}
 			}
