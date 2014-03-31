@@ -1,22 +1,27 @@
 package slidingpuzzle;
 
 
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 public class SlidingPuzzle extends JFrame implements ActionListener, MouseListener {
@@ -29,6 +34,11 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 	private JMenuItem About;
 	private JButton buttons[];
 	private GridBagConstraints bounds;
+	private javax.swing.Timer timer2;
+	private int nSeconds = 0;
+	
+	private Timer timer = new Timer();
+	private JLabel timeLabel = new JLabel(" ", JLabel.CENTER);
 
 	/**
 	 * Launch the application.
@@ -57,6 +67,29 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		//contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		//Create timer
+		timer2 = new javax.swing.Timer(1000,this); 
+		JPanel timer2 = new JPanel();
+		timer2.add(timeLabel); 
+		timer2.setBounds(413,12,79,28);
+		contentPane.add(timer2);
+				
+		//Creates a time label
+		JLabel lblTime = new JLabel("Time :");
+		lblTime.setToolTipText("Time in Seconds");
+		lblTime.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblTime.setBounds(354, 12, 91, 29);
+		contentPane.add(lblTime);
+		
+		//Displays a flags left label
+		JLabel lblFlagsLeft = new JLabel("Score");
+		lblFlagsLeft.setForeground(Color.DARK_GRAY);
+		lblFlagsLeft.setBackground(Color.WHITE);
+		lblFlagsLeft.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblFlagsLeft.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFlagsLeft.setBounds(20, 11, 91, 28);
+		contentPane.add(lblFlagsLeft);
 		
 		SlidingMap map1 = new SlidingMap("src/map.txt");
 		int[][] myArray = map1.toArray();
@@ -109,7 +142,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 				buttons[x] = new JButton();
 				//bounds.gridx = ;
 				buttons[x].setBounds(10+(x*50), 54+(y*50), 50, 50);
-				buttons[x].addActionListener(this);
+				buttons[x].addMouseListener(this);
 				contentPane.add(buttons[x]);
 				System.out.print(myArray[x][y] + " ");
 			}
@@ -138,7 +171,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+		timer.schedule(new UpdateUITask(), 0, 1000); 
 	}
 
 	@Override
@@ -179,5 +212,20 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		if (e.getSource() == Hint)
 			JOptionPane.showMessageDialog(null,"<html><p> To be added later </p><html>","Hint",JOptionPane.INFORMATION_MESSAGE);
 	}
+	
+	private class UpdateUITask extends TimerTask {
+
+        @Override
+        public void run() {
+            EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                	
+                    timeLabel.setText(String.valueOf(nSeconds+=1));}
+                
+            });
+        }
+    }
 
 }
