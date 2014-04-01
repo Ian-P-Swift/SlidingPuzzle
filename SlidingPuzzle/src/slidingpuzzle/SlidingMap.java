@@ -58,6 +58,11 @@ public class SlidingMap {
 		return new SlidingBlock(row, column, width, height, moveHorizontal, moveVertical, num);
 	}
 	
+	public SlidingBlock getBlock(int index)
+	{
+		return this.blocks.get(index);
+	}
+	
 	public SlidingMap(SlidingMap original)
 	{
 		this.rows = original.rows;
