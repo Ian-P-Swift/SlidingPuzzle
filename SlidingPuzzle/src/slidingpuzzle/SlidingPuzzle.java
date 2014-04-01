@@ -38,7 +38,6 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 	private JMenuItem Solve;
 	private JMenuItem About;
 	private JButton buttons[];
-	@SuppressWarnings("unused")
 	private GridBagConstraints bounds;
 	@SuppressWarnings("unused")
 	private javax.swing.Timer timer2;
@@ -125,7 +124,6 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		exit = new JMenuItem("Quit");
 		Hint = new JMenuItem("Hint");
 		Solve = new JMenuItem("Solve");
-		
 		file.add(Hint);
 		file.add(Solve);
 		file.add(exit);
@@ -184,7 +182,6 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 				}
 				System.out.print("\n");
 			}
-
 		}
 	}
 
