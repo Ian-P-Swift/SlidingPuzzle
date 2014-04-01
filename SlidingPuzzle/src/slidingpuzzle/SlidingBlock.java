@@ -67,6 +67,10 @@ public class SlidingBlock {
 	{
 		int numPossibleMoves = -1; //will be incremented to 0 in first iteration of loop
 		int[][] myPos = this.getAllPos(); //gets position of this box
+		if (this.moveHorizontal == false)
+		{
+			return 0;
+		}
 		boolean possible = true; //remains true as long as you can move in that direction
 		while(possible) {
 			numPossibleMoves++; //keeps track of how far it can move
@@ -88,6 +92,10 @@ public class SlidingBlock {
 	{
 		int numPossibleMoves = -1; //will be incremented to 0 in first iteration of loop
 		int[][] myPos = this.getAllPos(); //gets position of this box
+		if (this.moveHorizontal == false)
+		{
+			return 0;
+		}
 		boolean possible = true; //remains true as long as you can move in that direction
 		while(possible) {
 			numPossibleMoves++; //keeps track of how far it can move
@@ -109,6 +117,10 @@ public class SlidingBlock {
 	{
 		int numPossibleMoves = -1; //will be incremented to 0 in first iteration of loop
 		int[][] myPos = this.getAllPos(); //gets position of this box
+		if (this.moveVertical == false)
+		{
+			return 0;
+		}
 		boolean possible = true; //remains true as long as you can move in that direction
 		while(possible) {
 			numPossibleMoves++; //keeps track of how far it can move
@@ -130,6 +142,10 @@ public class SlidingBlock {
 	{
 		int numPossibleMoves = -1; //will be incremented to 0 in first iteration of loop
 		int[][] myPos = this.getAllPos(); //gets position of this box
+		if (this.moveVertical == false)
+		{
+			return 0;
+		}
 		boolean possible = true; //remains true as long as you can move in that direction
 		while(possible) {
 			numPossibleMoves++; //keeps track of how far it can move

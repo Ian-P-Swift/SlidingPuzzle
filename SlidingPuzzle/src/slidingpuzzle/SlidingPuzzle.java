@@ -442,6 +442,10 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 			//JOptionPane.showMessageDialog(null,"<html><p> To be added later </p><html>","Hint",JOptionPane.INFORMATION_MESSAGE);
 		if (e.getSource() == Solve)
 		{
+			left++;
+			if(left==1){  //left button click
+				timer.schedule(new UpdateUITask(), 0, 1000); 
+			}
 			this.solution_time = 1 + num_clicks;
 			System.out.print(solution_time);
 		}
@@ -484,6 +488,11 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
     					}
     				}
     				solution_time++;    
+    				if (currentMap.getBlock(0).isOut(currentMap.getColumns()))
+    				{
+    					solution_time = -1;
+    					NextPuzzle();
+    				}
                 }
                 
             }
