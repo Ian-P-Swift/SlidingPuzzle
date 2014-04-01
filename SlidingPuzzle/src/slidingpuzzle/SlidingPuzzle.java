@@ -55,7 +55,9 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 	private int startY;
 	private SlidingMap currentMap;
 	private List<SlidingMap> solution;
+	private String[] maplist;
 	private int solution_time = -1;
+	private int current_map = 0;
 	
 	private Timer timer = new Timer();
 	private JLabel timeLabel = new JLabel(" ", JLabel.CENTER);
@@ -67,7 +69,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					frame = new SlidingPuzzle();
+					frame = new SlidingPuzzle(0);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -79,9 +81,21 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 	/**
 	 * Create the frame.
 	 */
-	public SlidingPuzzle() {
+	public SlidingPuzzle(int current) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		current_map = current;
+		maplist = new String[10];
+		maplist[0] = "map1.txt";
+		maplist[1] = "map2.txt";
+		maplist[2] = "map3.txt";
+		maplist[3] = "map4.txt";
+		maplist[4] = "map5.txt";
+		maplist[5] = "map6.txt";
+		maplist[6] = "map7.txt";
+		maplist[7] = "map8.txt";
+		maplist[8] = "map9.txt";
+		maplist[9] = "map10.txt";
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		//contentPane.setLayout(new BorderLayout(0, 0));
@@ -119,7 +133,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		progressBar.setBounds(114, 11, 150, 29);
 		contentPane.add(progressBar);
 		
-		currentMap = new SlidingMap("src/test.txt");
+		currentMap = new SlidingMap("src/"+maplist[current_map]);
 		int[][] myArray = currentMap.toArray();
 		this.setTitle("Sliding Block Puzzle");
 		bounds = new GridBagConstraints();
@@ -357,17 +371,11 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		int choice = 0;
 		JOptionPane.showMessageDialog(null,"You Win, Want to play another puzzle?!!","Game Won",JOptionPane.YES_NO_OPTION);
 		if (choice == JOptionPane.YES_OPTION){
-			JFileChooser fileChooser = new JFileChooser();
-	        int returnValue = fileChooser.showOpenDialog(null);
-	        if (returnValue == JFileChooser.APPROVE_OPTION) {
-	          File selectedFile = fileChooser.getSelectedFile();
-	          System.out.println(selectedFile.getName());
 			//Scanner in = new Scanner(System.in);
 			//JOptionPane.showInputDialog("Please Enter the filename");
 			//String filename = in.nextLine();
-			SlidingMap map1 = new SlidingMap("selectedFile");
-			SlidingPuzzle game = new SlidingPuzzle();
-			SlidingPuzzle game1 = new SlidingPuzzle();
+			SlidingPuzzle game = new SlidingPuzzle((current_map+1)%10);
+			SlidingPuzzle game1 = new SlidingPuzzle((current_map+1)%10);
 			frame.setVisible(false);
 			game.setVisible(true);
 			int count =2;
@@ -377,8 +385,6 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 				JOptionPane.showMessageDialog(null, "New puzzle laoded","puzzle loaded", JOptionPane.OK_CANCEL_OPTION);
 				game1.setVisible(true);
 			}
-			int[][] myArray = map1.toArray();
-	        }
 		}
 	}
 
