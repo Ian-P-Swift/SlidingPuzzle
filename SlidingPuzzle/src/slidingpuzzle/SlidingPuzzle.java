@@ -48,6 +48,8 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 	private int blockNumber;
 	private boolean isClicked = false;
 	private int num_clicks = 0;
+	JLabel txtMovesLeft;
+	private int flagsleft = 0;
 
 	static SlidingPuzzle frame;
 
@@ -92,23 +94,30 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		timer2 = new javax.swing.Timer(1000,this); 
 		JPanel timer2 = new JPanel();
 		timer2.add(timeLabel); 
-		timer2.setBounds(413,12,79,28);
+		timer2.setBounds(345,12,79,28);
+		timer2.setFont(new Font("Verdana", Font.BOLD, 20));
 		contentPane.add(timer2);
 				
 		//Creates a time label
-		JLabel lblTime = new JLabel("Time :");
+		JLabel lblTime = new JLabel("Time:");
 		lblTime.setToolTipText("Time in Seconds");
 		lblTime.setFont(new Font("Verdana", Font.BOLD, 14));
 		lblTime.setBounds(300, 12, 91, 29);
 		contentPane.add(lblTime);
 		
+		//Creates a label for the move count
+		txtMovesLeft = new JLabel( "" + flagsleft ); 
+		txtMovesLeft.setFont(new Font("Tahoma", Font.BOLD, 13));
+		txtMovesLeft.setBounds(95, 12, 33, 28);
+		contentPane.add(txtMovesLeft);
+		
 		//Displays a flags left label
-		JLabel lblFlagsLeft = new JLabel("Move Count");
+		JLabel lblFlagsLeft = new JLabel("Move Count:");
 		lblFlagsLeft.setForeground(Color.DARK_GRAY);
 		lblFlagsLeft.setBackground(Color.WHITE);
 		lblFlagsLeft.setFont(new Font("Verdana", Font.BOLD, 12));
 		lblFlagsLeft.setHorizontalAlignment(SwingConstants.CENTER);
-		lblFlagsLeft.setBounds(20, 11, 91, 28);
+		lblFlagsLeft.setBounds(1, 11, 91, 28);
 		contentPane.add(lblFlagsLeft);
 		
 		//Creates a Progress bar
@@ -224,6 +233,8 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		int mbutton = e.getButton();
 			if(mbutton == 1){
 				left++;
+				flagsleft++;
+				txtMovesLeft.setText(" " + flagsleft);
 				if(left==1){  //left button click
 					timer.schedule(new UpdateUITask(), 0, 1000); 
 				}
@@ -389,13 +400,17 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 			System.exit(0);
 		
 		if (e.getSource() == Instructions)
-			JOptionPane.showMessageDialog(null,"<html><p> To move a button in the puzzle, select the button to move and <br> and then left click on the place where you want to move the button </p><html>","Instructions",JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null,"<html><p> To move a button in the puzzle, select the button to move and <br> and then left click on the place where you want to move the button "
+					+ "<br> Press the hint button if you want a hind"
+					+ "<br> Press the solve button if you want the computer to solve the whole puzzle </p><html>","Instructions",JOptionPane.INFORMATION_MESSAGE);
 		
 		if (e.getSource() == About)
 		JOptionPane.showMessageDialog(null,"<html><p> Author : Abinav Saini and Ian Swift <br> Date : 3/30/2014 <p><html> "," About SlidingPuzzle ",JOptionPane.INFORMATION_MESSAGE);
 		
 		if (e.getSource() == Hint)
 		{
+			flagsleft++;
+			txtMovesLeft.setText(" " + flagsleft);
 			System.out.print("trying to move....");
 			this.currentMap = solution.get(1+num_clicks);
 			num_clicks++;
