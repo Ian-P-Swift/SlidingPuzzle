@@ -1,8 +1,12 @@
+//This class makes the puzzle from a file
+//It also verifies the spaces and calculates the number of moves
+
 package slidingpuzzle;
 
 import java.io.*;
 import java.util.*;
 
+//gets the co-ordinates for the sliding map
 public class SlidingMap {
 	private int rows;
 	private int columns;
@@ -123,10 +127,10 @@ public class SlidingMap {
 		}		
 	}
 	
+	//set all elements of the array to be equal to a "unoccupied" -1
 	public int[][] toArray() {
 		int[][] myArray = new int[this.rows][this.columns];
 		
-		//set all elements of the array to be equal to a "unoccupied" -1
 		for (int x = 0; x<this.rows; x++)
 		{
 			for (int y = 0; y<this.columns; y++)
@@ -161,6 +165,7 @@ public class SlidingMap {
 		}
 	}
 	
+	//finds a solution for the current puzzle
 	public List<SlidingMap> FindSolution()
 	{
 		SlidingMap goal = this.FindSolutionHelper();
@@ -178,6 +183,7 @@ public class SlidingMap {
 		return path;
 	}
 	
+	//helper function for finding a solution
 	private SlidingMap FindSolutionHelper()
 	{
 		List<SlidingMap> solution = new ArrayList<SlidingMap>();

@@ -1,6 +1,7 @@
+//This class gets all the possible moves in different directions
 package slidingpuzzle;	
 
-
+//initializes all the values
 public class SlidingBlock {
 	private int x;
 	private int y;
@@ -10,6 +11,7 @@ public class SlidingBlock {
 	private boolean moveVertical;
 	private int num;
 	
+	//adds all the moves to the current ones
 	public SlidingBlock(int x, int y, int width, int height, boolean moveHorizontal, boolean moveVertical, int num)
 	{
 		this.x = x;
@@ -21,6 +23,7 @@ public class SlidingBlock {
 		this.num = num;
 	}
 	
+	//gets the moves from the original block
 	public SlidingBlock(SlidingBlock original) {
 		this.x = original.x;
 		this.y = original.y;
@@ -48,15 +51,19 @@ public class SlidingBlock {
 		return myArray;
 	}
 	
+	//gets the number to move
 	public int getNum()
 	{
 		return this.num;
 	}
 	
+	//gets the dimension for x to move
 	public void moveX(int distance)
 	{
 		this.x = this.x + distance;
 	}
+	
+	//gets the dimension for y to move
 	public void moveY(int distance)
 	{
 		this.y = this.y + distance;
@@ -147,6 +154,7 @@ public class SlidingBlock {
 		return numPossibleMoves;
 	}
 	
+	//gets the puzzle width
 	public boolean isOut(int puzzle_width)
 	{
 		if (this.y + this.width - 1 == puzzle_width)
