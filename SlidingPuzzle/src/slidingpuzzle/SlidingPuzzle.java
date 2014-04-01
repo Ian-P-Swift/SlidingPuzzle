@@ -305,6 +305,10 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 							}
 						}
 					}
+					if (this.currentMap.getBlock(0).isOut(this.currentMap.getColumns()))
+					{
+						this.NextPuzzle();
+					}
 				}
 			}
 		}

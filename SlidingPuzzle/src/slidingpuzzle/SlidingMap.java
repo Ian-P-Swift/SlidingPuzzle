@@ -11,6 +11,10 @@ public class SlidingMap {
 	private BufferedReader reader = null;
 	private SlidingMap parent = null;
 	
+	public int getColumns()
+	{
+		return this.columns;
+	}
 	private SlidingBlock generateSlidingBlock(String text, int num)
 	{
 		int row, column, width, height;
