@@ -12,11 +12,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -45,6 +47,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 	private int left = 0;
 	private int blockNumber;
 	private boolean isClicked = false;
+	static SlidingPuzzle frame;
 	
 	private Timer timer = new Timer();
 	private JLabel timeLabel = new JLabel(" ", JLabel.CENTER);
@@ -56,7 +59,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SlidingPuzzle frame = new SlidingPuzzle();
+					frame = new SlidingPuzzle();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -92,7 +95,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		contentPane.add(lblTime);
 		
 		//Displays a flags left label
-		JLabel lblFlagsLeft = new JLabel("Score");
+		JLabel lblFlagsLeft = new JLabel("Move Count");
 		lblFlagsLeft.setForeground(Color.DARK_GRAY);
 		lblFlagsLeft.setBackground(Color.WHITE);
 		lblFlagsLeft.setFont(new Font("Verdana", Font.BOLD, 14));
@@ -218,7 +221,6 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -232,6 +234,35 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO
 	}
+	
+	public void NextPuzzle(){
+		int choice = 0;
+		JOptionPane.showMessageDialog(null,"You Win, Want to play another puzzle?!!","Game Won",JOptionPane.YES_NO_OPTION);
+		if (choice == JOptionPane.YES_OPTION){
+			JFileChooser fileChooser = new JFileChooser();
+	        int returnValue = fileChooser.showOpenDialog(null);
+	        if (returnValue == JFileChooser.APPROVE_OPTION) {
+	          File selectedFile = fileChooser.getSelectedFile();
+	          System.out.println(selectedFile.getName());
+			//Scanner in = new Scanner(System.in);
+			//JOptionPane.showInputDialog("Please Enter the filename");
+			//String filename = in.nextLine();
+			SlidingMap map1 = new SlidingMap("selectedFile");
+			SlidingPuzzle game = new SlidingPuzzle();
+			SlidingPuzzle game1 = new SlidingPuzzle();
+			frame.setVisible(false);
+			game.setVisible(true);
+			int count =2;
+			if (count ==2){
+				dispose();
+				game.setVisible(false);
+				JOptionPane.showMessageDialog(null, "New puzzle laoded","puzzle loaded", JOptionPane.OK_CANCEL_OPTION);
+				game1.setVisible(true);
+			}
+			int[][] myArray = map1.toArray();
+	        }
+		}
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -239,7 +270,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 			System.exit(0);
 		
 		if (e.getSource() == Instructions)
-			JOptionPane.showMessageDialog(null,"<html><p> Sliding Puzzle. </p><html>","Instructions",JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null,"<html><p> To move a button in the puzzle, select the button to move and <br> and then left click on the place where you want to move the button </p><html>","Instructions",JOptionPane.INFORMATION_MESSAGE);
 		
 		if (e.getSource() == About)
 		JOptionPane.showMessageDialog(null,"<html><p> Author : Abinav Saini and Ian Swift <br> Date : 3/30/2014 <p><html> "," About SlidingPuzzle ",JOptionPane.INFORMATION_MESSAGE);
@@ -261,5 +292,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
             });
         }
     }
+	
+
 
 }
