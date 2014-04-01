@@ -190,8 +190,6 @@ public class SlidingMap {
 		int count = 0;
 		while(!myQueue.isEmpty())
 		{
-			System.out.print(count + "\n");
-			count++;
 			SlidingMap current = myQueue.remove();
 			if (InClosedList(current.toArray(), closedList)) {
 				continue;
@@ -201,7 +199,7 @@ public class SlidingMap {
 			{
 				return current;
 			}
-			int[][] myArray = current.toArray();
+			/*int[][] myArray = current.toArray();
 			for (int x = 0; x < myArray.length; x++)
 			{
 				for (int y = 0; y < myArray[x].length; y++)
@@ -209,7 +207,7 @@ public class SlidingMap {
 					System.out.print(myArray[x][y] + " ");
 				}
 				System.out.print("\n");
-			}
+			}*/
 			closedList.add(current.toArray());
 			for (int i = 0; i<this.blocks.size(); i++)
 			{

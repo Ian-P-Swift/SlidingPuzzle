@@ -47,12 +47,15 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 	private int left = 0;
 	private int blockNumber;
 	private boolean isClicked = false;
+	private int num_clicks = 0;
 
 	static SlidingPuzzle frame;
 
 	private int startX;
 	private int startY;
 	private SlidingMap currentMap;
+	private List<SlidingMap> solution;
+	private int solution_time = -1;
 	
 	private Timer timer = new Timer();
 	private JLabel timeLabel = new JLabel(" ", JLabel.CENTER);
@@ -183,7 +186,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 			System.out.print("\n");
 		}
 
-		List<SlidingMap> solution = currentMap.FindSolution();
+		solution = currentMap.FindSolution();
 		System.out.print("Hello world!");
 
 		for (int i = 0; i < solution.size(); i++)
@@ -309,6 +312,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 					{
 						this.NextPuzzle();
 					}
+					this.solution = currentMap.FindSolution();
 				}
 			}
 		}
@@ -375,7 +379,57 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		JOptionPane.showMessageDialog(null,"<html><p> Author : Abinav Saini and Ian Swift <br> Date : 3/30/2014 <p><html> "," About SlidingPuzzle ",JOptionPane.INFORMATION_MESSAGE);
 		
 		if (e.getSource() == Hint)
-			JOptionPane.showMessageDialog(null,"<html><p> To be added later </p><html>","Hint",JOptionPane.INFORMATION_MESSAGE);
+		{
+			System.out.print("trying to move....");
+			this.currentMap = solution.get(1+num_clicks);
+			num_clicks++;
+			for (int i = 0; i < solution.size(); i++)
+			{
+			int[][] myStep = solution.get(i).toArray();
+			System.out.print("Step " + i + "\n");
+			for (int x = 0; x < myStep.length; x++)
+			{
+				for (int y = 0; y < myStep[x].length; y++)
+				{
+					System.out.print(myStep[x][y] + " ");
+				}
+				System.out.print("\n");
+			}
+			}
+			this.solution = this.currentMap.FindSolution();
+			int[][] myArray = currentMap.toArray();
+			for (int x = 0; x < myArray.length; x++)
+			{
+				for (int y = 0; y < myArray[x].length; y++)
+				{
+					if (myArray[y][x] > 0)
+					{
+						buttons[x][y].setText(myArray[y][x] + "");
+						buttons[x][y].setBackground(Color.WHITE);
+					}
+					else if (myArray[y][x] == 0)
+					{
+						buttons[x][y].setText("Z");
+						buttons[x][y].setBackground(Color.RED);
+					}
+					else
+					{
+						buttons[x][y].setText("");
+						buttons[x][y].setBackground(Color.WHITE);
+					}
+				}
+			}
+			if (this.currentMap.getBlock(0).isOut(this.currentMap.getColumns()))
+			{
+				this.NextPuzzle();
+			}
+		}
+			//JOptionPane.showMessageDialog(null,"<html><p> To be added later </p><html>","Hint",JOptionPane.INFORMATION_MESSAGE);
+		if (e.getSource() == Solve)
+		{
+			this.solution_time = 1 + num_clicks;
+			System.out.print(solution_time);
+		}
 	}
 	
 	private class UpdateUITask extends TimerTask {
@@ -386,12 +440,40 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 
                 @Override
                 public void run() {
-                    timeLabel.setText(String.valueOf(nSeconds+=1));}
+                    timeLabel.setText(String.valueOf(nSeconds+=1));
+                    
+                    if (solution_time != -1) {
+                   System.out.print("Attempting to solve!");
+                    currentMap = solution.get(solution_time);
+
+    				int[][] myArray = currentMap.toArray();
+    				for (int x = 0; x < myArray.length; x++)
+    				{
+    					for (int y = 0; y < myArray[x].length; y++)
+    					{
+    						if (myArray[y][x] > 0)
+    						{
+    							buttons[x][y].setText(myArray[y][x] + "");
+    							buttons[x][y].setBackground(Color.WHITE);
+    						}
+    						else if (myArray[y][x] == 0)
+    						{
+    							buttons[x][y].setText("Z");
+    							buttons[x][y].setBackground(Color.RED);
+    						}
+    						else
+    						{
+    							buttons[x][y].setText("");
+    							buttons[x][y].setBackground(Color.WHITE);
+    						}
+    					}
+    				}
+    				solution_time++;    
+                }
                 
-            });
-        }
+            }
+           });
     }
 	
-
-
+	}
 }
