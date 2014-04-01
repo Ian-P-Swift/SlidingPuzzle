@@ -79,7 +79,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 	 */
 	public SlidingPuzzle() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 600);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		//contentPane.setLayout(new BorderLayout(0, 0));
@@ -97,14 +97,14 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		JLabel lblTime = new JLabel("Time :");
 		lblTime.setToolTipText("Time in Seconds");
 		lblTime.setFont(new Font("Verdana", Font.BOLD, 14));
-		lblTime.setBounds(354, 12, 91, 29);
+		lblTime.setBounds(300, 12, 91, 29);
 		contentPane.add(lblTime);
 		
 		//Displays a flags left label
 		JLabel lblFlagsLeft = new JLabel("Move Count");
 		lblFlagsLeft.setForeground(Color.DARK_GRAY);
 		lblFlagsLeft.setBackground(Color.WHITE);
-		lblFlagsLeft.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblFlagsLeft.setFont(new Font("Verdana", Font.BOLD, 12));
 		lblFlagsLeft.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFlagsLeft.setBounds(20, 11, 91, 28);
 		contentPane.add(lblFlagsLeft);
@@ -114,10 +114,10 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		progressBar.setString("** SlidingPuzzle **");
 		progressBar.setStringPainted(true);
 		progressBar.setIndeterminate(true);
-		progressBar.setBounds(144, 11, 189, 29);
+		progressBar.setBounds(114, 11, 150, 29);
 		contentPane.add(progressBar);
 		
-		currentMap = new SlidingMap("src/map.txt");
+		currentMap = new SlidingMap("src/test.txt");
 		int[][] myArray = currentMap.toArray();
 		this.setTitle("Sliding Block Puzzle");
 		bounds = new GridBagConstraints();
@@ -158,6 +158,15 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		Solve.addActionListener(this);
 		
 		buttons = new JButton[myArray.length][myArray[0].length];
+		System.out.println("Size of the array is" + myArray.length);
+		if(myArray.length <= 5){
+		setBounds(100, 20, myArray.length*130, myArray.length*100);
+		}
+		
+		if(myArray.length > 6 ){
+			setBounds(100, 20, myArray.length*100, myArray.length*100);
+		}
+		
 		
 		//print the contents of to array
 		for (int x = 0; x < myArray.length; x++)
@@ -166,7 +175,12 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 			{
 				buttons[x][y] = new JButton();
 				bounds.gridx = getX();
-				buttons[x][y].setBounds(10+(x*50), 54+(y*50), 50, 50);
+				if(myArray.length <= 5){
+				buttons[x][y].setBounds(10+(x*myArray.length*15), 54+(y*myArray.length*15), myArray.length*15, myArray.length*15);
+				}
+				if(myArray.length > 6 ){
+					buttons[x][y].setBounds(10+(x*myArray.length*10), 54+(y*myArray.length*10), myArray.length*10, myArray.length*10);
+				}
 				buttons[x][y].setBackground(Color.WHITE);
 				if (myArray[y][x] > 0)
 				{
@@ -183,6 +197,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 			}
 			System.out.print("\n");
 		}
+		
 
 		List<SlidingMap> solution = currentMap.FindSolution();
 		System.out.print("Hello world!");
