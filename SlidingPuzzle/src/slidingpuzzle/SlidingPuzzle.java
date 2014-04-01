@@ -38,7 +38,6 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 	private JMenuItem Solve;
 	private JMenuItem About;
 	private JButton buttons[];
-	@SuppressWarnings("unused")
 	private GridBagConstraints bounds;
 	@SuppressWarnings("unused")
 	private javax.swing.Timer timer2;
@@ -127,7 +126,6 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		exit = new JMenuItem("Quit");
 		Hint = new JMenuItem("Hint");
 		Solve = new JMenuItem("Solve");
-		
 		file.add(Hint);
 		file.add(Solve);
 		file.add(exit);
@@ -143,6 +141,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		option.add(About);
 		file.setBounds(105, 0, 107, 22);
 		
+		//Action Listener for all the menu bar items
 		exit.addActionListener(this);
 		Instructions.addActionListener(this);
 		About.addActionListener(this);
@@ -157,7 +156,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 			for (int y = 0; y < myArray[x].length; y++)
 			{
 				buttons[x] = new JButton();
-				//bounds.gridx = ;
+				bounds.gridx = getX();
 				buttons[x].setBounds(10+(x*50), 54+(y*50), 50, 50);
 				if (myArray[y][x] >= 0)
 				{
@@ -185,7 +184,6 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 				}
 				System.out.print("\n");
 			}
-
 		}
 	}
 
@@ -195,7 +193,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		int mbutton = e.getButton();
 			if(mbutton == 1){
 				left++;
-				if(left==1){
+				if(left==1){  //left button click
 					timer.schedule(new UpdateUITask(), 0, 1000); 
 				}
 				if (this.isClicked == false)
