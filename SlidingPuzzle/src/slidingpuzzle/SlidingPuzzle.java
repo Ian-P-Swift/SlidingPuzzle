@@ -53,7 +53,6 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 	private int startX;
 	private int startY;
 	private SlidingMap currentMap;
-
 	
 	private Timer timer = new Timer();
 	private JLabel timeLabel = new JLabel(" ", JLabel.CENTER);
@@ -320,6 +319,10 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 								buttons[x][y].setBackground(Color.WHITE);
 							}
 						}
+					}
+					if (this.currentMap.getBlock(0).isOut(this.currentMap.getColumns()))
+					{
+						this.NextPuzzle();
 					}
 				}
 			}
