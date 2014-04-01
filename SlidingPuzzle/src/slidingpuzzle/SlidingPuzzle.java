@@ -43,6 +43,8 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 	private javax.swing.Timer timer2;
 	private int nSeconds = 0;
 	private int left = 0;
+	private int blockNumber;
+	private boolean isClicked = false;
 	
 	private Timer timer = new Timer();
 	private JLabel timeLabel = new JLabel(" ", JLabel.CENTER);
@@ -194,12 +196,23 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 				if(left==1){  //left button click
 					timer.schedule(new UpdateUITask(), 0, 1000); 
 				}
+				if (this.isClicked == false)
+				{
+					if (((JButton)e.getSource()).getText() != null)
+					{
+						this.blockNumber = Integer.parseInt(((((JButton)e.getSource()).getText())));
+					}
+					this.isClicked = true;
+				}
+				else if (this.isClicked == true)
+				{
+					((JButton)e.getSource()).setText(blockNumber + "");
+				}
 			}
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -217,8 +230,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		// TODO
 	}
 
 	@Override
