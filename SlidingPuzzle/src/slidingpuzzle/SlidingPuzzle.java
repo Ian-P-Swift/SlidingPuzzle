@@ -159,7 +159,6 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		option = new JMenu(" Help ");
 		
 		Instructions = new JMenuItem("Instructions");
-		
 		About = new JMenuItem("About");
 		menuBar.add(option);
 		option.add(Instructions);
@@ -182,7 +181,6 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		if(myArray.length > 6 ){
 			setBounds(100, 20, myArray.length*100, myArray.length*100);
 		}
-		
 		
 		//print the contents of to array
 		for (int x = 0; x < myArray.length; x++)
@@ -233,6 +231,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		}
 	}
 
+	//Everytime a button is clicked it refers to this event
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -367,6 +366,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		// TODO
 	}
 	
+	//Loads the next puzzle everytime the user wins the game
 	public void NextPuzzle(){
 		int choice = 0;
 		JOptionPane.showMessageDialog(null,"You Win, Want to play another puzzle?!!","Game Won",JOptionPane.YES_NO_OPTION);
@@ -388,6 +388,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		}
 	}
 
+	//Actions for the instructions and other buttons
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == exit)
@@ -457,6 +458,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		}
 	}
 	
+	//Task for the timer class
 	private class UpdateUITask extends TimerTask {
 
         @Override
