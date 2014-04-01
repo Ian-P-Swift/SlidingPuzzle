@@ -39,7 +39,7 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 	private JMenuItem Hint;
 	private JMenuItem Solve;
 	private JMenuItem About;
-	private JButton buttons[];
+	private JButton buttons[][];
 	private GridBagConstraints bounds;
 	@SuppressWarnings("unused")
 	private javax.swing.Timer timer2;
@@ -47,7 +47,13 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 	private int left = 0;
 	private int blockNumber;
 	private boolean isClicked = false;
+
 	static SlidingPuzzle frame;
+
+	private int startX;
+	private int startY;
+	private SlidingMap currentMap;
+
 	
 	private Timer timer = new Timer();
 	private JLabel timeLabel = new JLabel(" ", JLabel.CENTER);
@@ -111,8 +117,8 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		progressBar.setBounds(144, 11, 189, 29);
 		contentPane.add(progressBar);
 		
-		SlidingMap map1 = new SlidingMap("src/map.txt");
-		int[][] myArray = map1.toArray();
+		currentMap = new SlidingMap("src/map.txt");
+		int[][] myArray = currentMap.toArray();
 		this.setTitle("Sliding Block Puzzle");
 		bounds = new GridBagConstraints();
 		
@@ -151,28 +157,34 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 		Hint.addActionListener(this);
 		Solve.addActionListener(this);
 		
-		buttons = new JButton[myArray.length];
+		buttons = new JButton[myArray.length][myArray[0].length];
 		
 		//print the contents of to array
 		for (int x = 0; x < myArray.length; x++)
 		{
 			for (int y = 0; y < myArray[x].length; y++)
 			{
-				buttons[x] = new JButton();
+				buttons[x][y] = new JButton();
 				bounds.gridx = getX();
-				buttons[x].setBounds(10+(x*50), 54+(y*50), 50, 50);
-				if (myArray[y][x] >= 0)
+				buttons[x][y].setBounds(10+(x*50), 54+(y*50), 50, 50);
+				buttons[x][y].setBackground(Color.WHITE);
+				if (myArray[y][x] > 0)
 				{
-					buttons[x].setText(myArray[y][x] + "");
+					buttons[x][y].setText(myArray[y][x] + "");
 				}
-				buttons[x].addMouseListener(this);
-				contentPane.add(buttons[x]);
+				else if (myArray[y][x] == 0)
+				{
+					buttons[x][y].setText("Z");
+					buttons[x][y].setBackground(Color.RED);
+				}
+				buttons[x][y].addMouseListener(this);
+				contentPane.add(buttons[x][y]);
 				System.out.print(myArray[x][y] + " ");
 			}
 			System.out.print("\n");
 		}
 
-		List<SlidingMap> solution = map1.FindSolution();
+		List<SlidingMap> solution = currentMap.FindSolution();
 		System.out.print("Hello world!");
 
 		for (int i = 0; i < solution.size(); i++)
@@ -201,18 +213,102 @@ public class SlidingPuzzle extends JFrame implements ActionListener, MouseListen
 				}
 				if (this.isClicked == false)
 				{
-					if (((JButton)e.getSource()).getText() != null)
+					if (((JButton)e.getSource()).getText() != "")
 					{
-						this.blockNumber = Integer.parseInt(((((JButton)e.getSource()).getText())));
+						if (((JButton)e.getSource()).getText() == "Z")
+						{
+							this.blockNumber = 0;
+						}
+						else
+						{
+							this.blockNumber = Integer.parseInt(((((JButton)e.getSource()).getText())));
+						}
+						this.isClicked = true;
+						for (int x = 0; x < buttons.length; x++)
+						{
+							for (int y = 0; y < buttons.length; y++)
+							{
+								if  (buttons[x][y] == e.getSource()){
+									this.startX = x;
+									this.startY = y;
+									System.out.print(x + ", " + y + "\n");
+								}
+							}
+						}
 					}
-					this.isClicked = true;
 				}
 				else if (this.isClicked == true)
 				{
-					((JButton)e.getSource()).setText(blockNumber + "");
+					this.isClicked = false;
+					int endX = -1;
+					int endY = -1;
+					for (int x = 0; x < buttons.length; x++)
+					{
+						for (int y = 0; y < buttons.length; y++)
+						{
+							if  (buttons[x][y] == e.getSource()){
+								endX = x;
+								endY = y;
+							}
+						}
+					}
+					if (endX != -1 && endX == this.startX && endY > this.startY)
+					{
+						SlidingBlock myBlock = currentMap.getBlock(this.blockNumber);
+						if (endY - this.startY <= myBlock.numPossibleMovesDown(currentMap.toArray()))
+						{
+							myBlock.moveX(endY-this.startY);
+						}
+					}
+					if (endX != -1 && endX == this.startX && endY < this.startY)
+					{
+						SlidingBlock myBlock = currentMap.getBlock(this.blockNumber);
+						if (this.startY - endY <= myBlock.numPossibleMovesUp(currentMap.toArray()))
+						{
+							myBlock.moveX(endY-this.startY);
+						}
+					}
+					if (endX != -1 && endY == this.startY && endX > this.startX)
+					{
+						SlidingBlock myBlock = currentMap.getBlock(this.blockNumber);
+						if (endX - this.startX <= myBlock.numPossibleMovesRight(currentMap.toArray()))
+						{
+							myBlock.moveY(endX-this.startX);
+						}
+					}
+					if (endX != -1 && endY == this.startY && endX < this.startX)
+					{
+						SlidingBlock myBlock = currentMap.getBlock(this.blockNumber);
+						if (this.startX - endX <= myBlock.numPossibleMovesLeft(currentMap.toArray()))
+						{
+							myBlock.moveY(endX-this.startX);
+						}
+					}
+					int[][] myArray = currentMap.toArray();
+					for (int x = 0; x < myArray.length; x++)
+					{
+						for (int y = 0; y < myArray[x].length; y++)
+						{
+							if (myArray[y][x] > 0)
+							{
+								buttons[x][y].setText(myArray[y][x] + "");
+								buttons[x][y].setBackground(Color.WHITE);
+							}
+							else if (myArray[y][x] == 0)
+							{
+								buttons[x][y].setText("Z");
+								buttons[x][y].setBackground(Color.RED);
+							}
+							else
+							{
+								buttons[x][y].setText("");
+								buttons[x][y].setBackground(Color.WHITE);
+							}
+						}
+					}
 				}
 			}
-	}
+		}
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
